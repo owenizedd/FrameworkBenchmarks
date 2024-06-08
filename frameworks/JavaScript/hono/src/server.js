@@ -1,5 +1,6 @@
 import { serve } from "@hono/node-server";
 import { Hono } from "hono";
+import { RegExpRouter } from "hono/router/reg-exp-router";
 import {
   addBenchmarkHeaders,
   escape,
@@ -13,7 +14,7 @@ let db;
 const { DATABASE } = process.env;
 if (DATABASE) db = await import(`./database/${DATABASE}.js`);
 
-const app = new Hono();
+const app = new Hono({ router: new RegExpRouter() });
 
 app
   .get("/plaintext", (c) => {
